@@ -8,13 +8,13 @@
 
 //int chichPin = 9; // Digital PWM
 
-const int maxKeys = 3;
+const int maxKeys = 2;
 int freqs[maxKeys];
-int cycleLength = 1; // TODO
+int cycleLength = 5; // TODO
 
 bool toPress[maxKeys]; // array to know which keys should be now pressed
 int beingPressed[maxKeys]; // array only with the currently sounding keys
-int C = 0; int D = 4; int E = 1; int F = 3; int G = 2; int A = 5; int B = 6; int C5 = 7;
+int C = 0; int D = 4; int E = 2; int F = 3; int G = 1; int A = 5; int B = 6; int C5 = 7;
 int keyPins[maxKeys];
 int currentCState; // Measures how long the current keys have been sounding
 int currentKey; // Currently sounding key
@@ -24,7 +24,7 @@ int totalPressedKeys;
 long capValues[maxKeys];
 int capLowThreshold = 20; // Si 2M 20
 int capHigThreshold = 2900;
-CapacitiveSensor capSensors[maxKeys] = {CapacitiveSensor(2,4), CapacitiveSensor(2,6), CapacitiveSensor(2,8)};        // 10M resistor between pins 4 & 6, pin 6 is sensor pin, add a wire and or foil
+CapacitiveSensor capSensors[maxKeys] = {CapacitiveSensor(2,4), CapacitiveSensor(2,8)};//, CapacitiveSensor(2,8)};        // 10M resistor between pins 4 & 6, pin 6 is sensor pin, add a wire and or foil
 
 // use: Oscil <table_size, update_rate> oscilName (wavetable), look in .h file of table #included above
 Oscil <SIN2048_NUM_CELLS, AUDIO_RATE> oscilators[maxKeys] = {Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA), Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA)};//, Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA), Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA), Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA), Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA), Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA), Oscil <SIN2048_NUM_CELLS, AUDIO_RATE>(SIN2048_DATA)};
@@ -36,7 +36,7 @@ bool cambio;
 int currentSound;
 
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   startMozzi(CONTROL_RATE);
   
   // Output pin
@@ -75,8 +75,10 @@ void loop() {
     // Determine the pressed keys and update toPress
     for (int key = 0; key < sizeof(toPress)/sizeof(*toPress); key++) {
       capValue = capSensors[key].capacitiveSensor(1);
+      Serial.print(" ");Serial.print(capValue);
       toPress[key] = (capLowThreshold < capValue) && (capValue < capHigThreshold);  // CHANGES DEPENDING ON THE SENSOR
     }
+    Serial.println();
   } else {
     cambio = false;
   }

@@ -53,7 +53,7 @@ void setup() {
 //  pinMode(chichPin, OUTPUT);
 
   // Initialize frequencies and oscillators
-  freqs[C] = 262; freqs[D] = 294; freqs[E] = 330; freqs[F] = 350; freqs[G] = 392; freqs[A] = 440; freqs[B] = 494; freqs[C5] = 523;
+  freqs[C] = 1; freqs[D] = 2; freqs[E] = 3; freqs[F] = 4; freqs[G] = 392; freqs[A] = 440; freqs[B] = 494; freqs[C5] = 523;
   for (int key = 0; key < sizeof(oscilators)/sizeof(*oscilators); key++) {
     oscilators[key].setFreq(freqs[key]);
   }

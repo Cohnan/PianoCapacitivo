@@ -5,7 +5,7 @@ int multimeterPin = 3; // Analog pin
 
 int chichPin = 9; // Digital PWM
 
-const int maxKeys = 3;
+const int maxKeys = 2;
 int freqs[maxKeys];
 int cycleLength = maxKeys*3; // TODO
 
@@ -20,12 +20,12 @@ int totalPressedKeys;
 
 // For capacitive keys
 long capValues[maxKeys];
-int capThreshold = 450;
+int capThreshold = 100;
 int upThr = 2900;
-CapacitiveSensor capSensors[3] = {CapacitiveSensor(2,4), CapacitiveSensor(2,6), CapacitiveSensor(2,8)};        // 10M resistor between pins 4 & 6, pin 6 is sensor pin, add a wire and or foil
+CapacitiveSensor capSensors[maxKeys] = {CapacitiveSensor(2,4), CapacitiveSensor(2,8)};//, CapacitiveSensor(2,8)};        // 10M resistor between pins 4 & 6, pin 6 is sensor pin, add a wire and or foil
 
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   
   // Output pin
   pinMode(chichPin, OUTPUT);
@@ -50,11 +50,11 @@ void loop() {
     // Determine the pressed keys
     int borrar;
     for (int key = 0; key < sizeof(toPress)/sizeof(*toPress); key++) {
-      borrar = capSensors[key].capacitiveSensor(40);
+      borrar = capSensors[key].capacitiveSensor(10);
       toPress[key] = (borrar > capThreshold && borrar < upThr);
-      //Serial.print("Tecla " );Serial.print(key); Serial.print(": "); Serial.print(borrar); Serial.print("\t");
+      Serial.print("Tecla " );Serial.print(key); Serial.print(": "); Serial.print(borrar); Serial.print("\t");
     }
-    //Serial.println();
+    Serial.println();
     
     mandarSonido(true);
   }
