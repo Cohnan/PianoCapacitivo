@@ -10,7 +10,7 @@
 
 const int maxKeys = 1;
 int freqs[maxKeys];
-int cycleLength = 5;    ///////// TODO
+int cycleLength = 100;    ///////// TODO
 
 bool toPress[maxKeys]; // array to know which keys should be now pressed
 int beingPressed[maxKeys]; // array only with the currently sounding keys
@@ -60,7 +60,7 @@ void setup() {
   currentCState = 0; // Current state in the cycle
   for (int key = 0; key < sizeof(toPress)/sizeof(*toPress); key++) toPress[key] = false; 
 
-  //Serial.print("Tamanio pinOf (setup): "); Serial.println(sizeof(pinOf)/sizeof(*pinOf));
+  Serial.print("Tamanio pinOf (setup): "); Serial.println(sizeof(pinOf)/sizeof(*pinOf));
 }
 
 void updateControl(){
